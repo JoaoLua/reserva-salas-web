@@ -1,0 +1,97 @@
+// signup.component.scss
+
+$accent-green: #4caf50; // Cor de destaque do tema
+$border-radius: 12px;
+
+.auth-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  // Fundo dark oficial para combinar com o restante do sistema
+  background-color: #121212; 
+
+  .signup-card {
+    width: 100%;
+    max-width: 450px; 
+    padding: 32px;
+    background-color: #1e1e1e !important; // Elevação 1dp no Dark Mode
+    border-radius: $border-radius !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+
+    mat-card-header {
+      margin-bottom: 24px;
+      text-align: center;
+      display: block;
+
+      mat-card-title {
+        color: white; 
+        font-weight: 500;
+        font-size: 1.6rem;
+        margin-bottom: 8px;
+      }
+
+      mat-card-subtitle {
+        color: rgba(255, 255, 255, 0.6); // Contraste ideal para o subtítulo
+      }
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 4px; // Espaçamento entre os campos
+
+    .full-width {
+      width: 100%;
+    }
+
+    // Garante que o texto digitado e o cursor sejam visíveis
+    input {
+      color: white !important;
+    }
+
+    mat-icon {
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  .mt-1 {
+    margin-top: 16px;
+    padding: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 8px;
+  }
+
+  .auth-footer {
+    padding: 24px 0 0 0;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 24px;
+
+    p {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    a {
+      color: $accent-green; // Verde para o link de voltar ao login
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity 0.2s;
+      
+      &:hover {
+        opacity: 0.8;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+// Customização de erros para o Dark Mode
+::ng-deep mat-error {
+  font-size: 0.75rem;
+  color: #ff5252; // Vermelho vibrante para leitura no fundo escuro
+}

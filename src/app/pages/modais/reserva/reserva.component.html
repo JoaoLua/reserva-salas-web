@@ -1,0 +1,36 @@
+<h2 mat-dialog-title color="primary">Confirmar Reserva</h2>
+
+<mat-dialog-content>
+  <div class="info-header">
+    <div class="info-item">
+      <span class="label text-secondary">Sala: </span>
+      <span class="value">{{ data.roomName }}</span>
+    </div>
+    <div class="info-item">
+      <span class="label text-secondary">Horário: </span>
+      <span class="value">{{ data.time }}</span>
+    </div>
+  </div>
+
+  <form [formGroup]="form" class="reservation-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Quem está reservando?</mat-label>
+      <input matInput formControlName="by" placeholder="Ex: Bruno - TI" autocomplete="off">
+      <mat-icon matSuffix>person</mat-icon>
+      <mat-error *ngIf="form.get('by')?.hasError('required')">O nome é obrigatório</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Motivo da reserva</mat-label>
+      <input matInput formControlName="reason" placeholder="Ex: Reunião de equipe">
+      <mat-icon matSuffix>chat_bubble</mat-icon>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">VOLTAR</button>
+  <button mat-flat-button color="primary" [disabled]="form.invalid" (click)="onConfirm()">
+    RESERVAR AGORA
+  </button>
+</mat-dialog-actions>

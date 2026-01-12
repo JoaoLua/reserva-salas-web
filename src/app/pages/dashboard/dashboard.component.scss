@@ -1,0 +1,179 @@
+// Variáveis de Estilo
+$gap: 24px;
+$sidebar-width: 320px;
+$accent-green: #4caf50; // Cor de acento padrão do tema Green
+$border-radius: 12px;
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.dashboard-grid {
+  display: grid;
+  gap: $gap;
+  padding: $gap;
+  max-width: 1600px;
+  margin: 0 auto;
+
+  // Layout Responsivo: Sidebar à esquerda em telas grandes
+  @media (min-width: 992px) {
+    grid-template-columns: $sidebar-width 1fr;
+    align-items: start;
+  }
+}
+
+// Estilização da Coluna Lateral (Configurações)
+.sidebar {
+  .config-card {
+    border-radius: $border-radius;
+    padding: 8px;
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding: 0 8px;
+
+      mat-icon {
+        font-size: 24px;
+      }
+    }
+
+    .full-width {
+      width: 100%;
+      margin-bottom: 12px;
+    }
+
+    .selection-box {
+      margin-top: 16px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 8px;
+      border: 1px dashed rgba(255, 255, 255, 0.12);
+
+      &.empty {
+        text-align: center;
+        padding: 24px 16px;
+      }
+
+      .label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+        letter-spacing: 1px;
+      }
+    }
+  }
+}
+
+// Estilização da Área Principal (Salas e Tabela)
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+
+  // Grade de Salas
+  .rooms-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+
+    .room-item {
+      cursor: pointer;
+      border-radius: $border-radius;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 2px solid transparent !important;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        background-color: rgba(255, 255, 255, 0.03);
+      }
+
+      // Estilo de Seleção (Padrão do Tema)
+      &.selected {
+        border-color: $accent-green !important;
+        background-color: rgba(76, 175, 80, 0.08);
+      }
+
+      .room-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+    }
+  }
+
+  // Card da Tabela
+  .table-card {
+    border-radius: $border-radius;
+    padding: 8px;
+
+    mat-card-header {
+      margin-bottom: 16px;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      
+      table {
+        width: 100%;
+        background: transparent;
+
+        th {
+          color: $accent-green;
+          font-weight: 600;
+          text-transform: uppercase;
+          font-size: 0.75rem;
+          letter-spacing: 0.5px;
+        }
+
+        .table-row {
+          transition: background-color 0.2s;
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+          }
+        }
+
+        .no-data-row td {
+          padding: 32px;
+          text-align: center;
+          opacity: 0.5;
+          font-style: italic;
+        }
+      }
+    }
+  }
+}
+
+// Utilitários de Texto e Estilo
+.text-secondary { color: rgba(255, 255, 255, 0.6); }
+.italic { font-style: italic; }
+.fw-bold { font-weight: 600; }
+.text-right { text-align: right; }
+
+// Ajuste para ícones dentro de chips
+[matChipAvatar] {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
