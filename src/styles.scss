@@ -1,1 +1,54 @@
-/* You can add global styles to this file, and also import other style files */
+
+html, body { 
+  height: 100%; 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
+
+
+body {
+  background-color: #121212; 
+  color: white;               
+}
+
+
+.mat-typography {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.slots-section {
+  margin-top: 24px;
+  h3 { margin-bottom: 12px; opacity: 0.8; }
+}
+
+.time-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+
+  .time-slot {
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s;
+
+    &:hover { background: rgba(255, 255, 255, 0.1); }
+
+    &.occupied {
+      border-left: 4px solid #f44336; 
+      opacity: 0.8;
+    }
+
+    &:not(.occupied) {
+      border-left: 4px solid #4caf50; 
+    }
+
+    .t-label { font-weight: bold; font-size: 0.9rem; }
+    .t-status { font-size: 0.7rem; opacity: 0.6; }
+  }
+}

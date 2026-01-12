@@ -1,0 +1,47 @@
+.info-header {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+
+  .info-item {
+    display: flex;
+    flex-direction: column;
+
+    .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .value {
+      font-weight: 500;
+      font-size: 1rem;
+      color: white;
+    }
+  }
+}
+
+.reservation-form {
+  margin-top: 8px;
+  
+  .full-width {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+}
+
+.text-secondary {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+mat-dialog-actions {
+  padding-bottom: 16px;
+  button {
+    font-weight: 600;
+    padding: 0 24px;
+  }
+}

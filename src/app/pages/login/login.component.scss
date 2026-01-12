@@ -1,0 +1,95 @@
+$accent-green: #4caf50; 
+$border-radius: 12px;
+
+.auth-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  background-color: #121212; 
+
+  .login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 32px;
+    background-color: #1e1e1e !important;
+    border-radius: $border-radius !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+
+    mat-card-header {
+      margin-bottom: 32px;
+      text-align: center;
+      display: block;
+
+      mat-card-title {
+        color: white; 
+        font-weight: 500;
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+      }
+
+      mat-card-subtitle {
+        color: rgba(255, 255, 255, 0.6); 
+      }
+    }
+  }
+
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .full-width {
+      width: 100%;
+    }
+
+    input {
+      color: white !important;
+    }
+
+   
+    mat-icon {
+      color: rgba(255, 255, 255, 0.54);
+    }
+  }
+
+  .mt-1 {
+    margin-top: 16px;
+    padding: 12px; 
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 8px;
+  }
+
+  .auth-footer {
+    padding: 24px 0 0 0;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 24px;
+
+    p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+    }
+
+    a {
+      color: $accent-green; 
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity 0.2s;
+      
+      &:hover {
+        opacity: 0.8;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+::ng-deep mat-error {
+  font-size: 0.75rem;
+  color: #ff5252; 
+}
