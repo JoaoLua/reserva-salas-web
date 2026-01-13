@@ -5,19 +5,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { MATERIAL_MODULES } from 'src/app/shared/material/material.imports';
 import { ReservaComponent } from '../modais/reserva/reserva.component';
 import { MatDialog } from '@angular/material/dialog';
+import { RoomBookingService } from 'src/app/core/services/room-booking.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { BookingResponse, CreateBookingRequest, Room } from 'src/app/core/models/booking.model';
 
-export interface Room {
-  id: string;
-  name: string;
-  capacity: number;
-  type: string;
-  floor: string;
-}
-export interface Booking {
-  time: string;
-  roomName: string;
-  by: string;
-}
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -26,29 +18,30 @@ export interface Booking {
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  selectedDate: Date = new Date();
-  searchQuery: string = '';
+  private roomService = inject(RoomBookingService)
+  private snackBar = inject(MatSnackBar)
+
+  rooms: Room[] = []
+  dataSource: BookingResponse[] = []
+  selectedDate: Date = new Date()
   selectedRoom: Room | null = null;
+  searchQuery: string = '';
 
-  rooms: Room[] = [
-    { id: "R1", name: "Sala de Reunião 1", capacity: 8, type: "Reunião", floor: "1º andar" },
-    { id: "R2", name: "Sala de Reunião 2", capacity: 12, type: "Reunião", floor: "2º andar" },
-    { id: "LAB", name: "Laboratório", capacity: 20, type: "Aula", floor: "Térreo" },
-    { id: "AUD", name: "Auditório", capacity: 60, type: "Evento", floor: "Térreo" }
-  ];
-
-  dataSource: Booking[] = [
-    { time: '09:00', roomName: 'Sala de Reunião 1', by: 'Bruno - TI' },
-    { time: '14:00', roomName: 'Laboratório', by: 'Suporte - Infra' }
-  ];
+  private dialog = inject(MatDialog);
 
   displayedColumns: string[] = ['time', 'room', 'user', 'actions'];
   readonly TIME_SLOTS = ["08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
 
-  private dialog = inject(MatDialog);
-
   ngOnInit(): void {
+    this.loadData()
+  }
 
+  loadData() {
+    const formattedDate = this.selectedDate.toISOString().split('T')[0];
+    this.roomService.getBookingsByDate(formattedDate).subscribe({
+      next: (data) => this.dataSource = data,
+      error: () => this.snackBar.open('Erro ao carregar reservas', 'Fechar')
+    });
   }
 
   get filteredRooms() {
@@ -66,10 +59,8 @@ export class DashboardComponent implements OnInit {
   }
 
   onSlotClick(time: string) {
-    if (!this.selectedRoom) return;
-
-    if (this.isOccupied(time)) {
-      this.cancelBooking(time, this.selectRoom.name);
+    if (!this.selectedRoom) {
+      this.snackBar.open('Selecione uma sala primeiro', 'Fechar');
       return;
     }
 
@@ -80,9 +71,11 @@ export class DashboardComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.dataSource = [...this.dataSource, {
+          id: 0, 
           time,
           roomName: this.selectedRoom!.name,
-          by: result.by
+          reservedBy: result.by, 
+          reason: result.reason || ''
         }];
       }
     });
@@ -104,7 +97,7 @@ export class DashboardComponent implements OnInit {
     if (this.dataSource.length === 0) return;
 
     const headers = ["Hora;Sala;Responsável"];
-    const rows = this.dataSource.map(b => `${b.time};${b.roomName};${b.by}`);
+    const rows = this.dataSource.map(b => `${b.time};${b.roomName};${b.reservedBy}`);
     const csvContent = "\uFEFF" + [headers, ...rows].join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });

@@ -1,8 +1,14 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MATERIAL_MODULES } from 'src/app/shared/material/material.imports';
+
+export interface ReservaData {
+  roomId: string;
+  roomName: string;
+  time: string;
+}
 
 @Component({
   selector: 'app-reservation-dialog',
@@ -12,18 +18,16 @@ import { MATERIAL_MODULES } from 'src/app/shared/material/material.imports';
   styleUrls: ['./reserva.component.scss']
 })
 export class ReservaComponent implements OnInit {
+
+  private fb = inject(FormBuilder);
+  public dialogRef = inject(MatDialogRef<ReservaComponent>);
+  public data: ReservaData = inject(MAT_DIALOG_DATA);
+
   form!: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    public dialogRef: MatDialogRef<ReservaComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { roomName: string, time: string }
-  ) {}
-
-  ngOnInit(): void {
+ngOnInit(): void {
     this.form = this.fb.group({
-      by: ['', [Validators.required, Validators.minLength(3)]],
-      reason: ['', Validators.maxLength(100)]
+      reason: ['', [Validators.required, Validators.maxLength(100)]]
     });
   }
 

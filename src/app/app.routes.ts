@@ -3,6 +3,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './pages/login/login.component';
 
 import { SignupComponent } from './pages/singup/signup.component';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
     {
@@ -13,7 +14,8 @@ export const routes: Routes = [
     {
         path: 'dashboard',
         component: DashboardComponent,
-        title: 'Reserva de Salas - Dashboard'
+        title: 'Reserva de Salas - Dashboard',
+        canActivate: [authGuard]
     },
     {
         path: 'login', 
