@@ -66,6 +66,18 @@ export class DashboardComponent implements OnInit {
     return this.dataSource.some(b => b.time === time && b.roomName === this.selectedRoom?.name);
   }
 
+  cancelBooking(id: number | string, roomName: string, time: string) {
+    if (confirm(`Deseja cancelar a reserva da ${roomName} às ${time}?`)) {
+      this.roomService.cancelBooking(id).subscribe({
+        next: () => {
+          this.snackBar.open('Reserva cancelada!', 'OK');
+          this.loadData(); // Recarrega a lista do banco
+        },
+        error: (err) => this.snackBar.open(err.error.message || 'Erro ao cancelar', 'Fechar')
+      });
+    }
+  }
+
   onSlotClick(time: string) {
     if (!this.selectedRoom) {
       this.snackBar.open('Selecione uma sala primeiro', 'Fechar');
@@ -82,14 +94,14 @@ export class DashboardComponent implements OnInit {
       if (result) {
         const payload: CreateBookingRequest = {
           roomId: this.selectedRoom!.id,
-          date: this.selectedDate.toISOString().split('T')[0], 
-          timeSlot: `${time}:00`,               
-          reason: result.reason                 
+          date: this.selectedDate.toISOString().split('T')[0],
+          timeSlot: `${time}:00`,
+          reason: result.reason
         };
         this.roomService.createBooking(payload).subscribe({
           next: () => {
             this.snackBar.open('Reserva realizada!', 'OK');
-            this.loadData(); 
+            this.loadData();
           },
           error: (err) => {
             const errorMsg = err.error?.message || 'Erro ao salvar reserva';
@@ -98,11 +110,6 @@ export class DashboardComponent implements OnInit {
         });
       }
     });
-  }
-  cancelBooking(time: string, roomName: string) {
-    if (confirm(`Deseja cancelar a reserva da ${roomName} às ${time}?`)) {
-      this.dataSource = this.dataSource.filter(b => !(b.time === time && b.roomName === roomName));
-    }
   }
 
   clearAllBookings() {

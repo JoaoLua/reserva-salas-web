@@ -25,4 +25,8 @@ export class RoomBookingService {
   createBooking(request: CreateBookingRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/bookings`, request);
   }
+
+  cancelBooking(id: number | string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/bookings/${id}`);
+  }
 }

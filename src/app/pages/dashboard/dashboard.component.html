@@ -121,7 +121,7 @@
             <td mat-cell *matCellDef="let b" class="text-right">
               <button mat-icon-button color="warn" 
                       title="Cancelar Reserva"
-                      (click)="cancelBooking(b.time, b.roomName)">
+                      (click)="cancelBooking(b.id, b.time, b.roomName)">
                 <mat-icon>cancel</mat-icon>
               </button>
             </td>
