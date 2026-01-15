@@ -14,16 +14,10 @@
 
   <form [formGroup]="form" class="reservation-form">
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Quem está reservando?</mat-label>
-      <input matInput formControlName="by" placeholder="Ex: Bruno - TI" autocomplete="off">
-      <mat-icon matSuffix>person</mat-icon>
-      <mat-error *ngIf="form.get('by')?.hasError('required')">O nome é obrigatório</mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Motivo da reserva</mat-label>
       <input matInput formControlName="reason" placeholder="Ex: Reunião de equipe">
       <mat-icon matSuffix>chat_bubble</mat-icon>
+      <mat-error *ngIf="form.get('reason')?.hasError('required')">O motivo é obrigatório</mat-error>
     </mat-form-field>
   </form>
 </mat-dialog-content>
