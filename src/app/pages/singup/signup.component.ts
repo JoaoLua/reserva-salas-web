@@ -47,7 +47,6 @@ export class SignupComponent {
         email: this.signupForm.value.email!,
         password: this.signupForm.value.password!
       }
-
       this.authService.register(payload).subscribe({
         next: (response) => {
           this.snackBar.open('Cadastro realizado com sucesso!', 'Fechar', { duration: 3000 });

@@ -9,7 +9,7 @@
       <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Nome Completo</mat-label>
-          <input matInput formControlName="name" placeholder="Ex: Bruno Silva">
+          <input matInput formControlName="fullName" placeholder="Ex: Bruno Silva">
           <mat-icon matSuffix>person</mat-icon>
           <mat-error *ngIf="signupForm.get('name')?.hasError('required')">Nome é obrigatório</mat-error>
         </mat-form-field>

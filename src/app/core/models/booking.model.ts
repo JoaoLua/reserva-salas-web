@@ -16,6 +16,7 @@ export interface BookingResponse {
 
 export interface CreateBookingRequest {
   roomId: string;
-  date: string; 
+  date: string;     
   timeSlot: string; 
+  reason: string;
 }

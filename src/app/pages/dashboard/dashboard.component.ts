@@ -34,6 +34,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData()
+    this.loadRooms()
   }
 
   loadData() {
@@ -41,6 +42,13 @@ export class DashboardComponent implements OnInit {
     this.roomService.getBookingsByDate(formattedDate).subscribe({
       next: (data) => this.dataSource = data,
       error: () => this.snackBar.open('Erro ao carregar reservas', 'Fechar')
+    });
+  }
+
+  loadRooms() {
+    this.roomService.getRooms().subscribe({
+      next: (data) => this.rooms = data,
+      error: () => this.snackBar.open('Erro ao carregar salas', 'Fechar')
     });
   }
 
@@ -63,24 +71,34 @@ export class DashboardComponent implements OnInit {
       this.snackBar.open('Selecione uma sala primeiro', 'Fechar');
       return;
     }
-
     const dialogRef = this.dialog.open(ReservaComponent, {
-      data: { roomName: this.selectedRoom.name, time }
+      data: {
+        roomId: this.selectedRoom.id,
+        roomName: this.selectedRoom.name,
+        time: time
+      }
     });
-
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.dataSource = [...this.dataSource, {
-          id: 0, 
-          time,
-          roomName: this.selectedRoom!.name,
-          reservedBy: result.by, 
-          reason: result.reason || ''
-        }];
+        const payload: CreateBookingRequest = {
+          roomId: this.selectedRoom!.id,
+          date: this.selectedDate.toISOString().split('T')[0], 
+          timeSlot: `${time}:00`,               
+          reason: result.reason                 
+        };
+        this.roomService.createBooking(payload).subscribe({
+          next: () => {
+            this.snackBar.open('Reserva realizada!', 'OK');
+            this.loadData(); 
+          },
+          error: (err) => {
+            const errorMsg = err.error?.message || 'Erro ao salvar reserva';
+            this.snackBar.open(errorMsg, 'Fechar');
+          }
+        });
       }
     });
   }
-
   cancelBooking(time: string, roomName: string) {
     if (confirm(`Deseja cancelar a reserva da ${roomName} às ${time}?`)) {
       this.dataSource = this.dataSource.filter(b => !(b.time === time && b.roomName === roomName));

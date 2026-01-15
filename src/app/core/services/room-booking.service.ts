@@ -10,10 +10,14 @@ export class RoomBookingService {
   private http = inject(HttpClient);
   private readonly apiUrl = environment.apiUrl;
 
+  getRooms(): Observable<Room[]> {
+    return this.http.get<Room[]>(`${this.apiUrl}/rooms`);
+  }
+
   getBookingsByDate(date: string): Observable<BookingResponse[]> {
     return this.http.get<BookingResponse[]>(`${this.apiUrl}/bookings/${date}`);
   }
-  
+
   getAvailableRooms(date: string, slot: string): Observable<Room[]> {
     return this.http.get<Room[]>(`${this.apiUrl}/rooms/available?date=${date}&slot=${slot}`);
   }
